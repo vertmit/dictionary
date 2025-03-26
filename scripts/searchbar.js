@@ -135,8 +135,8 @@ searchInput.addEventListener("input", ()=>{
 })
 
 // Initilizes the site that the user can goto from the search bar
-const searchURL = `${websiteDomain}search.html`
-const wordURL = `${websiteDomain}word.html`
+const searchURL = `${websiteDomain}search`
+const wordURL = `${websiteDomain}word`
 
 // Runs the search engine by going to the search page
 function search(qurery) {

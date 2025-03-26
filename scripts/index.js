@@ -36,7 +36,7 @@ function displayWordOfTheDay() {
             definitionText.textContent = info.definition
             wordOfTheDayHolder.appendChild(definitionText)
 
-            const wordOfTheDayURL = `${websiteDomain}word.html?w=${wordOfTheDay}`
+            const wordOfTheDayURL = `${websiteDomain}word?w=${wordOfTheDay}`
 
             const wordOfTheDayLink = document.getElementById("wordOfTheDayLink")
             wordOfTheDayLink.href = wordOfTheDayURL

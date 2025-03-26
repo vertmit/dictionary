@@ -38,7 +38,7 @@ function loadSearchResults(word, start, end) {
         resultUrl.appendChild(resultHolder)
 
         // Defines the url that the user get directed to when clicking the result
-        const wordUrl = `word.html?q=${encodeURIComponent(word)}&w=${encodeURIComponent(result.value)}`
+        const wordUrl = `word?q=${encodeURIComponent(word)}&w=${encodeURIComponent(result.value)}`
         resultUrl.href = wordUrl
 
         // Defines the size of the loading square used for loading other information about the word
@@ -92,7 +92,7 @@ if (qsearch) {
     if (checkSeachResultLength == 1) {
 
         // Goes to the page of the only reult
-        window.location.href = `word.html?q=${encodeURIComponent(qsearch)}&w=${encodeURIComponent(getSearchResults(qsearch, 0, 1)[0].value)}`
+        window.location.href = `word?q=${encodeURIComponent(qsearch)}&w=${encodeURIComponent(getSearchResults(qsearch, 0, 1)[0].value)}`
     } 
 
     // sees if no results can be loaded with the query

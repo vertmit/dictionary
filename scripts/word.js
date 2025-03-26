@@ -37,9 +37,9 @@ if (urlParams.get('w')) {
             
 
             for (const link of collectedWikiContent.querySelectorAll("a")) {
-                if (link.href.startsWith(String(window.location).split("word.html")[0])) {
+                if (link.href.startsWith(websiteDomain)) {
                     
-                    link.href = "/word.html?w="+link.href.split("wiki/")[1]
+                    link.href = `${websiteDomain}word?w=${link.href.split("wiki/")[1]}`
                 } else {
                     link.target = "_blank"
                 }
