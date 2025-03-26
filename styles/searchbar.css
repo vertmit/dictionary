@@ -1,0 +1,67 @@
+#navbar {
+    border-bottom: 1px solid var(--2bg-colour);
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    background-color: var(--bg-colour);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    
+}
+
+#navIMG {
+    margin: 4px;
+    margin-right: 20px;
+    height: 45px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+}
+
+#searchBox {
+    position: relative;
+    background-color: var(--font-colour);
+    border-radius: 3px;
+    width: 500px;
+    display: flex;
+    img {
+        height: 30px;
+        margin: 0px;
+    }
+    input {
+        width: 100%;
+        font-size: 23px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+}
+
+#suggestionsBox {
+    width: 100%;
+    background-color: var(--font-colour);
+    color: black;
+    position: absolute;
+    top: 30px;
+}
+
+.suggestion {
+    overflow: hidden;
+    font-size: 23px;
+    margin-inline: 30px;
+    border-top: 1px solid rgb(119, 119, 119);
+    user-select: none;
+    cursor: pointer;
+    color: black;
+}
+
+.suggestion.selected {
+    background-color: rgb(160, 160, 160);
+}
+
+.suggestion:hover {
+    background-color: rgb(160, 160, 160);
+}

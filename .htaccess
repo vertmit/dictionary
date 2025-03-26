@@ -1,0 +1,5 @@
+DirectoryIndex index.html
+
+RewriteEngine On
+RewriteRule ^search$ /search.html
+RewriteRule ^word$ /word.html

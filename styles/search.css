@@ -1,0 +1,35 @@
+html, body {
+    margin: 0;
+}
+
+#searchResultsHolder {
+    padding-top: 65px;
+}
+
+.result {
+    margin: 10px;
+    border: 1px solid var(--2bg-colour);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    /* user-select: none; */
+    color: var(--font-colour);
+    
+    h1 {
+        margin: 0px;
+        text-decoration: none;
+    }
+    
+}
+
+p {
+    margin-block: 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.infoText {
+    margin-top: 0px;
+}

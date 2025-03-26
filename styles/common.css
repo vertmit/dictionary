@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Domine:wght@400..700&display=swap');
+
+
+:root {
+    --font-colour: #e0e1dd;
+    --bg-colour: #1b263b;
+    --2bg-colour: #5c718a;
+    --link-colour: #778da9;
+    --title-font: Domine, serif;
+    --content-font: Cabin, arial;
+}
+
+body, html{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--bg-colour);
+}
+
+a {
+    color: var(--link-colour);
+}
+
+input {
+    font-family: var(--content-font);
+}
+
+html {
+    font-family: var(--content-font);
+    color: var(--font-colour);
+}
+
+h1 {
+    font-family: var(--title-font);
+}
+
+h2 {
+    font-family: var(--title-font);
+}
+
+h3 {
+    font-family: var(--title-font);
+}
+
+@keyframes rotating {
+    0% {
+        transform: rotate(0) translate(-50%, -50%);
+        transform-origin: top left;
+    }
+
+    25% {
+        transform: rotate(90deg) translate(-50%, -50%);
+        transform-origin: top left;
+    }
+
+    50% {
+        transform: rotate(180deg) translate(-50%, -50%);
+        transform-origin: top left;
+    }
+
+    75% {
+        transform: rotate(270deg) translate(-50%, -50%);
+        transform-origin: top left;
+    }
+
+    100% {
+        transform: rotate(360deg) translate(-50%, -50%);
+        transform-origin: top left;
+    }
+}
+
+@keyframes rotatingNonCentred {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes failedLoading {
+    0% {
+        transform: translate(-50%, -50%);
+    }
+
+    25% {
+        transform: translate(-100%, -50%);
+    }
+
+    50% {
+        transform: translate(0%, -50%);
+        background-color: #b44747;
+    }
+
+    75% {
+        transform: translate(-100%, -50%);
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+        background-color: #b44747;
+    }
+}
+
+.smallLoading {
+    animation: rotating 1s infinite;
+
+    border-radius: 5px;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background-color: var(--2bg-colour);
+}
+
+.loading {
+    animation: rotating 1s infinite;
+
+    border-radius: 10px;
+
+    width: 100px;
+    height: 100px;
+    background-color: var(--2bg-colour);
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+}
+
+.loadingText {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 60px);
+}

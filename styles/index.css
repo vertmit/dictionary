@@ -1,0 +1,153 @@
+
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+#fontFillBg {
+    width: 100vw;
+    height: 100vh;
+    background-color: #1b263b;
+}
+
+#searchBox {
+    z-index: 10;
+    position: relative;
+    left: 50%;
+    height: 60px;
+    width: 800px;
+    transform: translateX(-50%);
+    border: 1px solid black;
+    background-color: var(--font-colour);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+}
+
+#background {
+    width: 100vh;
+    height: 100vh;
+}
+
+#infoHolder {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.infoChip {
+    width: 500px;
+    height: 100%;
+    background-color: var(--2bg-colour);
+    padding: 40px;
+    border-radius: 10px;
+    h1 {
+        margin-bottom: 0;
+        font-size: 40px;
+        text-align: center;
+    }
+    p {
+        margin-top: 0;
+        font-size: 20px;
+        text-align: center;
+    }
+}
+
+#title {
+    font-family: var(--title-font);
+    color: #e0e1dd;
+    text-align: center;
+    position: relative;
+    margin: 0;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    left: 50%;
+    font-size: 70px;
+    transform: translateX(-50%);
+}
+
+#searchBTN {
+    height: 75%;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+    user-select: none;
+    padding-left: 4px;
+}
+
+#searchInput {
+    font-size: 40px;
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 100%;
+    height: 100%;
+}
+#wordOfTheDay {
+    max-width: 400px
+}
+
+#wordOfTheDayTitle {
+    margin: 0;
+    text-align: center;
+}
+
+#wordOfTheDayWord {
+    font-family: var(--content-font);
+    text-align: center;
+    margin: 0;
+    margin-top: 10px;
+    font-size: 40px;
+    
+}
+
+p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+a {
+    color: var(--font-colour) !important;
+    text-decoration: none;
+}
+
+#wordOfTheDayTitleUnderline {
+    position: relative;
+    height: 3px;
+    width: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--2bg-colour);
+}
+
+.suggestion {
+    font-size: 30px;
+    margin-inline: 50px;
+    border-top: 1px solid rgb(119, 119, 119);
+    user-select: none;
+    cursor: pointer;
+    color: black;
+}
+
+.suggestion.selected {
+    background-color: rgb(160, 160, 160);
+}
+
+.suggestion:hover {
+    background-color: rgb(160, 160, 160);
+}
+
+#suggestionsBox {
+    position: absolute;
+    top: 90%;
+    width: 100%;
+    background-color: var(--font-colour);
+    border: 1px solid black;
+    border-top: none;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
