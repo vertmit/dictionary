@@ -10,11 +10,13 @@
     --content-font: Cabin, arial;
 }
 
-body, html{
-    width: 100vw;
-    height: 100vh;
+html{
     margin: 0;
     background-color: var(--bg-colour);
+}
+
+body {
+    margin: 0;
 }
 
 a {
@@ -112,6 +114,21 @@ h3 {
     100% {
         transform: translate(-50%, -50%);
         background-color: #b44747;
+    }
+}
+
+@property --borderAngle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes rotateBorder {
+    from {
+        --borderAngle: 0deg;
+    }
+    to {
+        --borderAngle: 360deg
     }
 }
 

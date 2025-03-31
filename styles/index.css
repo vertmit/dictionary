@@ -78,6 +78,7 @@
     padding-left: 4px;
 }
 
+
 #searchInput {
     font-size: 40px;
     padding: 0px;
@@ -87,13 +88,78 @@
     width: 100%;
     height: 100%;
 }
+
 #wordOfTheDay {
-    max-width: 400px
+    max-width: 400px;
+    backdrop-filter: blur(2px);
+    background-color: #ffffff07;
+    padding: 20px;
+    border-radius: 3px;
+    border-top: 0.5px solid #63636344;
+    border-bottom: 0.5px solid #24242444;
 }
 
 #wordOfTheDayTitle {
     margin: 0;
     text-align: center;
+    position: relative;
+}
+
+#wordOfTheDayTitle:after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 100px;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%);
+    background-color: var(--2bg-colour);
+}
+
+#animatedBg {
+    position: absolute;
+}
+
+.connectionWordHolder {
+    position: absolute;
+    z-index: 100;
+    transition: 100ms;
+    border-radius: 5px;
+    font-size: 10px;
+    h1 {
+        background-color: var(--bg-colour);
+        padding: 4px;
+        z-index: 200;
+        margin: 0;
+        border-radius: 5px;
+        font-family: var(--content-font);
+    }
+}
+
+.connectionWordHolder::after, .connectionWordHolder::before{
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-image: conic-gradient(from var(--borderAngle), #ffbe0b, #fb5607, #ff006e, #8338ec, #3a86ff, #ffbe0b);
+    padding: 2px;
+    border-radius: 7px;
+    z-index: -1;
+    animation: rotateBorder 3s infinite linear;
+}
+
+.connectionWordHolder::before {
+    transition: 200ms;
+    filter: blur(20px);
+    opacity: 0.5;
+}
+
+.content {
+    position: relative;
+    z-index: 10;
 }
 
 #wordOfTheDayWord {
@@ -113,15 +179,6 @@ p {
 a {
     color: var(--font-colour) !important;
     text-decoration: none;
-}
-
-#wordOfTheDayTitleUnderline {
-    position: relative;
-    height: 3px;
-    width: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--2bg-colour);
 }
 
 .suggestion {

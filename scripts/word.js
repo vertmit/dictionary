@@ -15,14 +15,28 @@ if (urlParams.get('w')) {
         } else {
 
             pageContentHolder.innerHTML = ""
+            const topInforamtion = document.createElement("div")
+            topInforamtion.id = "topInfo"
             const wordTitle = document.createElement("div")
             const wordTitleText = document.createElement("h1")
+
             wordTitle.id = "titleHolder"
             wordTitleText.textContent = wsearch
 
+            topInforamtion.appendChild(wordTitle)
             wordTitle.appendChild(wordTitleText)
 
-            pageContentHolder.appendChild(wordTitle)
+            pageContentHolder.appendChild(topInforamtion)
+
+            getWordInfo(wsearch, true).then((info)=>{
+                const wordType = document.createElement("p")
+                wordType.textContent = info.type
+                topInforamtion.appendChild(wordType)
+
+                const definition = document.createElement("p")
+                definition.innerHTML = info.definition
+                topInforamtion.appendChild(definition)
+            })
 
             const collectedWikiContent = document.createElement("div");
             collectedWikiContent.innerHTML = pageContent
@@ -35,11 +49,10 @@ if (urlParams.get('w')) {
                 }
             }
             
-
             for (const link of collectedWikiContent.querySelectorAll("a")) {
-                if (link.href.startsWith(websiteDomain)) {
+                if (link.href.startsWith(websiteDomain.split("/")[0])) {
                     
-                    link.href = `${websiteDomain}word?w=${link.href.split("wiki/")[1]}`
+                    link.href = `${wordURL}?w=${link.href.split("wiki/")[1]}`
                 } else {
                     link.target = "_blank"
                 }

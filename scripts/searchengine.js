@@ -25,9 +25,29 @@ async function getPage(word) {
         const response = await fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${word}&format=json&prop=text&origin=*`);
         const data = await response.json();
         const htmlContent = data.parse.text['*'];
+
+        const collectedWikiContent = document.createElement("div");
+        collectedWikiContent.innerHTML = htmlContent
+
+        const classesToRemove = ["mw-editsection", "audiometa", "sister-wikipedia", "NavFrame", "request-box", 'mw-empty-elt', 'examples']
+
+        for (const classToRemove of classesToRemove) {
+            while (collectedWikiContent.getElementsByClassName(classToRemove)[0]) {
+                collectedWikiContent.getElementsByClassName(classToRemove)[0].remove()
+            }
+        }
+        
+        for (const link of collectedWikiContent.querySelectorAll("a")) {
+            if (link.href.startsWith(websiteDomain.split("/")[0])) {
+                
+                link.href = `${wordURL}?w=${link.href.split("wiki/")[1]}`
+            } else {
+                link.target = "_blank"
+            }
+        }
         
         // Returns the page recived
-        return htmlContent;
+        return collectedWikiContent.innerHTML;
     } catch (error) {
 
         // Returns -1 as an error code
@@ -35,21 +55,19 @@ async function getPage(word) {
     }
 }
 
+const knownWordTypes = ["Adverb", "Pronoun", "Noun", "Verb", "Adjective", "Determiner", "Preposition", "Conjunction", "Interjection", "Symbol", "Letter", "Phrase", "Proper noun", "Etymology"]
+
 // RETURNS:
 //      Object{"type", "definition"}: A short description of the word
 //      -1: an error occured
-async function getWordInfo(word) {
+async function getWordInfo(word, defineInHTML = false) {
     try {
         // Fetches the page through wiktionary
-        const response = await fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${word}&format=json&prop=text&origin=*`);
-        const data = await response.json();
-        const htmlContent = data.parse.text['*'];
+        const htmlContent =  await getPage(word);
         
         // Defines the variables responsible to finding the word type of the inputted word
         let mostLikelyWordType = "Unknown"
         let wordTypePlace = -1;
-
-        const knownWordTypes = ["Adverb", "Pronoun", "Noun", "Verb", "Adjective", "Determiner", "Preposition", "Conjunction", "Interjection", "Symbol", "Letter"]
 
         // Loops over the word types to find the most likely one
         for (const selectedWordType of knownWordTypes) {
@@ -65,8 +83,11 @@ async function getWordInfo(word) {
         let definition = ""
         let parmsDepth = 0
 
+        const definitionLocation = htmlContent.split("<ol>")[1].split("</ol>")[0].split("<li>")[1].split("</li>")[0].split("<b>")[0]
+
+        if (!defineInHTML)
         // Get the fist item of the first ordered list element because that is most likely to contain the word's definition
-        for (const letter of htmlContent.split("<ol>")[1].split("</ol>")[0].split("<li>")[1].split("</li>")[0]) {
+        for (const letter of definitionLocation) {
 
             // Sees if the text is inside the prams of an element so it doesn't get put in the definition
             if (letter == "<") {
@@ -78,6 +99,7 @@ async function getWordInfo(word) {
                 definition = `${definition}${letter}`
             }
         }
+        else definition = definitionLocation
 
         // Returns the above information
         return {
@@ -143,7 +165,7 @@ function getSearchResults(searchQurery, start=0, end=10) {
     results = results.sort((a, b) => b.worth - a.worth )
 
     // Splitting the list up into the inputted values "start" and "end" to save memory
-    results = results.splice(start, end)
+    results = results.slice(start, end)
 
     // Returns the sorted results list
     return results

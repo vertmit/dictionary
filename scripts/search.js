@@ -1,6 +1,7 @@
 // Gets the place in which the results should be placed
 const searchResultsHolder = document.getElementById("searchResultsHolder")
 
+
 // Gets the search query from the url
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -10,16 +11,22 @@ const qsearch = urlParams.get('q');
 const startTime = Date.now()
 
 // defines where the results start and how many result get displayed after every iteration
-let bottomResult = 0
-let resultInterval = 10
+const resultsInPage = 30
+
+const psearch = urlParams.get('p');
+let pageId = 0;
+if (psearch) {
+    pageId = Number(psearch)
+}
 
 document.title = `DE Search - ${qsearch}`
 
 // Loads the results
-function loadSearchResults(word, start, end) {
-    console.log(start, end)
+function loadSearchResults(word, amountOfResults, pageNumber) {
+
     // Get the results within the loading range
-    const results = getSearchResults(word, start, end)
+    const results = getSearchResults(word, amountOfResults*pageNumber, amountOfResults*pageNumber+amountOfResults)
+    console.log(amountOfResults*pageNumber, amountOfResults*pageNumber+amountOfResults, results.length)
 
     // Iterates through the results to display each of them
     for (const result of results) {
@@ -29,7 +36,7 @@ function loadSearchResults(word, start, end) {
         const resultHolder = document.createElement("div")
         const resultTitle = document.createElement("h1")
 
-        resultHolder.classList = "result"
+        resultHolder.classList = "result resultLoading"
 
         // Sets the reult to the correct word
         resultTitle.textContent = result.value
@@ -38,7 +45,7 @@ function loadSearchResults(word, start, end) {
         resultUrl.appendChild(resultHolder)
 
         // Defines the url that the user get directed to when clicking the result
-        const wordUrl = `word?q=${encodeURIComponent(word)}&w=${encodeURIComponent(result.value)}`
+        const wordUrl = `${wordURL}?q=${encodeURIComponent(word)}&w=${encodeURIComponent(result.value)}`
         resultUrl.href = wordUrl
 
         // Defines the size of the loading square used for loading other information about the word
@@ -71,6 +78,8 @@ function loadSearchResults(word, start, end) {
                 const wordDefinition = document.createElement("p")
                 wordDefinition.textContent = info.definition
                 resultHolder.appendChild(wordDefinition)
+
+                resultHolder.classList.remove("resultLoading")
             } else {
 
                 // Deletest the result if the word doesn't exsist
@@ -92,7 +101,7 @@ if (qsearch) {
     if (checkSeachResultLength == 1) {
 
         // Goes to the page of the only reult
-        window.location.href = `word?q=${encodeURIComponent(qsearch)}&w=${encodeURIComponent(getSearchResults(qsearch, 0, 1)[0].value)}`
+        window.location.href = `${wordURL}?q=${encodeURIComponent(qsearch)}&w=${encodeURIComponent(getSearchResults(qsearch, 0, 1)[0].value)}`
     } 
 
     // sees if no results can be loaded with the query
@@ -103,35 +112,48 @@ if (qsearch) {
         document.getElementById("loadingText").textContent = "No Results Found"
     } 
     else {
-        // Removes the loading screen
-        searchResultsHolder.innerHTML = ""
-        const infoText = document.createElement("p")
 
-        // Displays how long it took to get how many results can be loaded
-        infoText.textContent = `Found ${getSearchResultAmount(qsearch).toLocaleString()} Unfiltered Results for '${qsearch}' in ${Date.now() - startTime} ms`
-        infoText.classList = "infoText"
-        infoText.style.marginLeft = "10px"
-        searchResultsHolder.appendChild(infoText)
+        searchResultsHolder.innerHTML = ""
+
+        if (pageId == 0 ) {
+            // Removes the loading screen
+            
+            const infoText = document.createElement("p")
+
+            // Displays how long it took to get how many results can be loaded
+            infoText.textContent = `Found ${getSearchResultAmount(qsearch).toLocaleString()} Unfiltered Results for '${qsearch}' in ${Date.now() - startTime} ms`
+            infoText.classList = "infoText"
+            infoText.style.marginLeft = "10px"
+            searchResultsHolder.appendChild(infoText)
+        }
     
         // Loades the initial search results on run
         // Runs until the results fill the height of the screen
-        while (searchResultsHolder.scrollHeight < window.innerHeight) {
+        loadSearchResults(qsearch, resultsInPage, pageId)
 
-            // Checkes if results have loaded so there is an exit out of the loop if there isn't enough results to fill the screen
-            if (loadSearchResults(qsearch, bottomResult, bottomResult + resultInterval) == 0) {
-                break
+        const pageSelectorHolder = document.createElement("div")
+        pageSelectorHolder.id = "pageSelectorHolder"
+
+        const pageSelectorAmount = 10
+        const amountOfPages = Math.floor(checkSeachResultLength/resultsInPage)
+
+        if (amountOfPages > 1){
+
+            const pageSelectorStart = (pageId - Math.floor(pageSelectorAmount / 2) < 0)? 0 : (pageId - Math.floor(pageSelectorAmount / 2) > amountOfPages - pageSelectorAmount)? amountOfPages - pageSelectorAmount: pageId - Math.floor(pageSelectorAmount / 2)
+
+            for (let page = pageSelectorStart; page < Math.min(pageSelectorStart + pageSelectorAmount, amountOfPages) + 1; page++) { 
+                const pageBTN = document.createElement("a");
+                pageBTN.textContent = page + 1
+                pageBTN.href = `${searchURL}?q=${encodeURIComponent(qsearch)}&p=${page}`
+                pageBTN.classList.add("pageBTN")
+
+                if (page == pageId) {
+                    pageBTN.classList.add("selected")
+                }
+                pageSelectorHolder.appendChild(pageBTN)
             }
-            bottomResult += resultInterval
+        searchResultsHolder.appendChild(pageSelectorHolder)
         }
-        
-        // Sees if the user has scrolled enough to reach the bottom to load results
-        window.addEventListener("scroll", ()=>{
-            if (window.scrollY + window.innerHeight + 20 > searchResultsHolder.offsetHeight) {
-                loadSearchResults(qsearch, bottomResult, bottomResult+resultInterval)
-                bottomResult += resultInterval
-            }
-            
-        })
     }
 } 
 else {

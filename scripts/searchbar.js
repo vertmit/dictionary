@@ -1,5 +1,3 @@
-const websiteDomain = window.location.href.split("/").slice(0, -1).join("/") + "/"
-
 // Grabs the conponents of the search bar
 const searchInput = document.getElementById("searchInput")
 const searchBox = document.getElementById("searchBox")
@@ -133,10 +131,6 @@ searchInput.addEventListener("input", ()=>{
         closeSuggestions()
     }
 })
-
-// Initilizes the site that the user can goto from the search bar
-const searchURL = `${websiteDomain}search`
-const wordURL = `${websiteDomain}word`
 
 // Runs the search engine by going to the search page
 function search(qurery) {

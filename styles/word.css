@@ -6,20 +6,7 @@ html, body {
     background-color: #153457 !important;
 }
 
-#titleHolder {
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid var(--2bg-colour);
-    margin-bottom: 10px;
-    padding-block: 10px;
-    h1 {
-        margin: 0;
-        margin-right: 40px;
-        display: block;
-        width: fit-content;
-        font-size: 50px;
-    }
-}
+
 
 audio {
     width: 250px !important;
@@ -31,4 +18,26 @@ audio {
     padding-top: 60px;
     padding-inline: 20px;
     overflow: hidden;
+}
+
+#titleHolder {
+    display: flex;
+    align-items: center;
+    
+    h1 {
+        margin: 0;
+        margin-right: 40px !important;
+        display: block;
+        width: fit-content;
+        font-size: 50px;
+    }
+}
+
+#topInfo {
+    margin-bottom: 10px;
+    padding-block: 10px;
+    border-bottom: 2px solid var(--2bg-colour);
+    p {
+        margin-block: 5px;
+    }
 }
