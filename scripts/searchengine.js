@@ -26,22 +26,25 @@ async function getPage(word) {
         const data = await response.json();
         const htmlContent = data.parse.text['*'];
 
+        // Creates a burner element to remove the class element effectivly
         const collectedWikiContent = document.createElement("div");
         collectedWikiContent.innerHTML = htmlContent
 
+        // Removes all unwanteded elements
         const classesToRemove = ["mw-editsection", "audiometa", "sister-wikipedia", "NavFrame", "request-box", 'mw-empty-elt', 'examples']
-
         for (const classToRemove of classesToRemove) {
             while (collectedWikiContent.getElementsByClassName(classToRemove)[0]) {
                 collectedWikiContent.getElementsByClassName(classToRemove)[0].remove()
             }
         }
         
+        // Changes all the wiktionary links to local ones
         for (const link of collectedWikiContent.querySelectorAll("a")) {
             if (link.href.startsWith(websiteDomain.split("/")[0])) {
-                
                 link.href = `${wordURL}?w=${link.href.split("wiki/")[1]}`
             } else {
+
+                // Opens new tabs if the links can't be localized
                 link.target = "_blank"
             }
         }
@@ -55,15 +58,17 @@ async function getPage(word) {
     }
 }
 
+// Initializes a list that contains all the types of words
 const knownWordTypes = ["Adverb", "Pronoun", "Noun", "Verb", "Adjective", "Determiner", "Preposition", "Conjunction", "Interjection", "Symbol", "Letter", "Phrase", "Proper noun", "Etymology"]
 
 // RETURNS:
 //      Object{"type", "definition"}: A short description of the word
 //      -1: an error occured
-async function getWordInfo(word, defineInHTML = false) {
+async function getWordInfo(word, defineInHTML = false, premadeHTML = undefined) {
     try {
+
         // Fetches the page through wiktionary
-        const htmlContent =  await getPage(word);
+        const htmlContent = (premadeHTML)? premadeHTML: await getPage(word);
         
         // Defines the variables responsible to finding the word type of the inputted word
         let mostLikelyWordType = "Unknown"

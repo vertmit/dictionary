@@ -120,7 +120,7 @@
     position: absolute;
 }
 
-.connectionWordHolder {
+.nodeWordHolder {
     position: absolute;
     z-index: 100;
     transition: 100ms;
@@ -136,7 +136,7 @@
     }
 }
 
-.connectionWordHolder::after, .connectionWordHolder::before{
+.nodeWordHolder::after, .nodeWordHolder::before{
     position: absolute;
     content: "";
     width: 100%;
@@ -151,7 +151,7 @@
     animation: rotateBorder 3s infinite linear;
 }
 
-.connectionWordHolder::before {
+.nodeWordHolder::before {
     transition: 200ms;
     filter: blur(20px);
     opacity: 0.5;

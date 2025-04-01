@@ -161,7 +161,11 @@ searchInput.addEventListener("keydown", (event)=>{
     // Goes down the suggestion list if they press the down arrow
     if (event.key == "ArrowDown") {
         suggestionSelection = (suggestionSelection + 1) % suggestionBox.children.length
+
+        // Prevents the caret from jumping to the end of the input
         event.preventDefault()
+
+        // Displays the selected suggestion
         selectectSuggestion(suggestionSelection)
     } 
 
@@ -172,7 +176,10 @@ searchInput.addEventListener("keydown", (event)=>{
             suggestionSelection = suggestionBox.children.length - 1
         }
         
+        // Prevents the caret from jumping to the start of the input
         event.preventDefault()
+
+        // Displays the selected suggestion
         selectectSuggestion(suggestionSelection)
 
     // Searches run the search engine if they press enter

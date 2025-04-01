@@ -13,11 +13,12 @@ const startTime = Date.now()
 // defines where the results start and how many result get displayed after every iteration
 const resultsInPage = 30
 
+// Gets the page number
 const psearch = urlParams.get('p');
 let pageId = 0;
-if (psearch) {
-    pageId = Number(psearch)
-}
+
+// Sees if the url has a page id, if not then it defults to 0
+if (psearch) pageId = Number(psearch)
 
 document.title = `DE Search - ${qsearch}`
 
@@ -26,7 +27,6 @@ function loadSearchResults(word, amountOfResults, pageNumber) {
 
     // Get the results within the loading range
     const results = getSearchResults(word, amountOfResults*pageNumber, amountOfResults*pageNumber+amountOfResults)
-    console.log(amountOfResults*pageNumber, amountOfResults*pageNumber+amountOfResults, results.length)
 
     // Iterates through the results to display each of them
     for (const result of results) {
@@ -113,11 +113,10 @@ if (qsearch) {
     } 
     else {
 
+        // Removes all the loading elements
         searchResultsHolder.innerHTML = ""
 
         if (pageId == 0 ) {
-            // Removes the loading screen
-            
             const infoText = document.createElement("p")
 
             // Displays how long it took to get how many results can be loaded
@@ -131,32 +130,53 @@ if (qsearch) {
         // Runs until the results fill the height of the screen
         loadSearchResults(qsearch, resultsInPage, pageId)
 
+        // 
+        // Page Selector
+        // -----
         const pageSelectorHolder = document.createElement("div")
         pageSelectorHolder.id = "pageSelectorHolder"
 
+        // Defines how may page buttons can be shown at one
         const pageSelectorAmount = 10
+
+        // Gets how many pages there are
         const amountOfPages = Math.floor(checkSeachResultLength/resultsInPage)
 
+        // Sees if there isn't only one page
         if (amountOfPages > 1){
 
+            // Gets the first page number to be shown
             const pageSelectorStart = (pageId - Math.floor(pageSelectorAmount / 2) < 0)? 0 : (pageId - Math.floor(pageSelectorAmount / 2) > amountOfPages - pageSelectorAmount)? amountOfPages - pageSelectorAmount: pageId - Math.floor(pageSelectorAmount / 2)
 
+            // Loops through all the page numbers to display them
             for (let page = pageSelectorStart; page < Math.min(pageSelectorStart + pageSelectorAmount, amountOfPages) + 1; page++) { 
                 const pageBTN = document.createElement("a");
+
+                // Displays one more than the accual page number because it uses 0 indexing
                 pageBTN.textContent = page + 1
+
+                // Gets the URL of the page the button leads to
                 pageBTN.href = `${searchURL}?q=${encodeURIComponent(qsearch)}&p=${page}`
                 pageBTN.classList.add("pageBTN")
 
+                // Sees if the page button leads to the current page
                 if (page == pageId) {
+
+                    // Sets the page number to selected
                     pageBTN.classList.add("selected")
                 }
+
+                // Adds the button to the button holder
                 pageSelectorHolder.appendChild(pageBTN)
             }
-        searchResultsHolder.appendChild(pageSelectorHolder)
+
+            // Adds the button holder to the bottom of the page
+            searchResultsHolder.appendChild(pageSelectorHolder)
         }
     }
 } 
 else {
+    
     // Displays an error message if there isn't a q pram in the url
     document.getElementById("loading").style.animation = "failedLoading 500ms forwards"
     document.getElementById("loadingText").textContent = "No Query Inputted"
