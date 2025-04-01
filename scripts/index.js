@@ -1,12 +1,12 @@
 // Gathers the canvas element
-const animatedBgCanvas = document.getElementById("animatedBg")
+const animatedBgCanvas = document.getElementById("animatedBg");
 
 // Sets the width and the height of the canvas to fill the screen
-animatedBgCanvas.width = window.innerWidth
-animatedBgCanvas.height = window.innerHeight
+animatedBgCanvas.width = window.innerWidth;
+animatedBgCanvas.height = window.innerHeight;
 
 // Creates the context of the canvas to draw elements
-const context = animatedBgCanvas.getContext("2d")
+const context = animatedBgCanvas.getContext("2d");
 
 // Initalizes the mouse coords, -1 being undefined
 let mouseX = -1;
@@ -18,24 +18,24 @@ let dragging = false;
 
 // Updates the mouse coords when it moves
 window.addEventListener("mousemove", (event)=>{
-    mouseX = event.clientX
-    mouseY = event.clientY
+    mouseX = event.clientX;
+    mouseY = event.clientY;
 })
 
 // Defines all the node variables
-let nodes = []
+let nodes = [];
 
 // Sets the amount of nodes on screen
-const amountOfNodes = 750 * ((window.innerWidth * window.innerHeight) / (1920 * 1080))
+const amountOfNodes = 750 * ((window.innerWidth * window.innerHeight) / (1920 * 1080));
 
 // Sets the display properties of the nodes and the lines connecting them
-const distanceNeededToConnectWithCursor = 100
-const distanceNeededFormCursorToExpand = 10
-const expandedSize = 6
-const distanceNeededToConnectWithNode = 75
-const nodeBorderWidthPX = 2
-const lineStrength = 0.5
-const lineWidth = 3
+const distanceNeededToConnectWithCursor = 100;
+const distanceNeededFormCursorToExpand = 10;
+const expandedSize = 6;
+const distanceNeededToConnectWithNode = 75;
+const nodeBorderWidthPX = 2;
+const lineStrength = 0.5;
+const lineWidth = 3;
 const nodeSize = 3;
 
 // Sets the colour of the nodes and the lines
@@ -43,20 +43,20 @@ const nodeColour = {
     "r": 44,
     "g": 62,
     "b": 97
-}
+};
 
 // Insializes the taken words variable to make sure no 2 nodes have the same word
-let takenWords = []
+let takenWords = [];
 
 // Creates all the nodes
 for (let i = 0; i < amountOfNodes; i++) {
 
     // Gets a unique word
-    let nodeWord = words[Math.floor(Math.random() * words.length)]
+    let nodeWord = words[Math.floor(Math.random() * words.length)];
     while (takenWords.includes(nodeWord)) {
-        nodeWord = words[Math.floor(Math.random() * words.length)]
+        nodeWord = words[Math.floor(Math.random() * words.length)];
     }
-    takenWords.push(nodeWord)
+    takenWords.push(nodeWord);
 
     nodes.push({
         "centerX":Math.random()*window.innerWidth,
@@ -72,43 +72,43 @@ for (let i = 0; i < amountOfNodes; i++) {
         "size": 0,
         "id":i,
         "word":nodeWord
-    })
+    });
 }
 
 // Initilizes the types of presses
-let animationPressed = false
-let animationPressedBackUp = false
-let animationUnpressed = false
+let animationPressed = false;
+let animationPressedBackUp = false;
+let animationUnpressed = false;
 
-let pressedNode = -1
+let pressedNode = -1;
 
 // Events when the mouse is down
 window.addEventListener("mousedown", ()=>{
 
     // Sets all the mouse presses to true
-    animationPressed = true
-    animationPressedBackUp = true
+    animationPressed = true;
+    animationPressedBackUp = true;
 
     // Disables dragging
-    dragging = false
+    dragging = false;
     
     // Set the orgin presses to the current mouse pos
     pressOriginX = mouseX;
-    pressOriginY = mouseY
+    pressOriginY = mouseY;
 
     // Sees what node is being pressed
     for (let node of nodes) {
         if (Math.sqrt(Math.pow(node.displayX - mouseX, 2) + Math.pow(node.displayY - mouseY, 2)) < node.size) {
-            pressedNode = node.id
-            break
+            pressedNode = node.id;
+            break;
         }
     }
-})
+});
 
 // Events in mouse up
 window.addEventListener("mouseup", ()=>{
-    animationPressed = false
-})
+    animationPressed = false;
+});
 
 // Background expore animation
 function animateBg() {
@@ -116,21 +116,21 @@ function animateBg() {
     // clears the screen
     context.clearRect(0, 0, animatedBgCanvas.width, animatedBgCanvas.height);
     document.body.style.cursor = "";
-    document.body.style.userSelect = ""
+    document.body.style.userSelect = "";
 
     // Defines variable that sees if a node is has been clicked to ensure only one word popup is shown at one time
-    let nodeClicked = false
+    let nodeClicked = false;
 
     // Sees if the mouse has only just gotten unpressed
     if (animationPressedBackUp && !animationPressed) {
-        animationUnpressed = true
-        animationPressedBackUp = false
+        animationUnpressed = true;
+        animationPressedBackUp = false;
     }
 
     // Changes the mouse to grabbing when the variable "grabbing" is true
     if (dragging  && animationPressed) {
         document.body.style.cursor = "grabbing";
-        document.body.style.userSelect = "none"
+        document.body.style.userSelect = "none";
     }
 
     // Animates nodes
@@ -149,7 +149,7 @@ function animateBg() {
         if (dragging && pressedNode == node.id) {
 
             // Sets the node to have the max size
-            currentNodeSize = expandedSize
+            currentNodeSize = expandedSize;
 
             // Delays animation
             node.animationFrame -= node.overallAnimationSpeed;
@@ -159,15 +159,15 @@ function animateBg() {
         if ((mouseX != pressOriginX || mouseY != pressOriginY) && animationPressed && pressedNode == node.id) {
 
             // Starts dragging
-            dragging = true
+            dragging = true;
 
             // Moves the node to the mouse pos
             node.centerX +=  mouseX - pressOriginX;
             node.centerY +=  mouseY - pressOriginY;
 
             // Sets the oraiin to the current mouse position
-            pressOriginX = mouseX
-            pressOriginY = mouseY
+            pressOriginX = mouseX;
+            pressOriginY = mouseY;
         }
 
         // Sets a bounding box to optimize performance
@@ -212,46 +212,46 @@ function animateBg() {
                         if (document.body.style.cursor == "") document.body.style.cursor = "pointer";
 
                         // Delays the animation
-                        node.animationFrame -= node.overallAnimationSpeed;     
+                        node.animationFrame -= node.overallAnimationSpeed;
 
                         // Sees if the node hase been clicked
                         if (animationUnpressed && !nodeClicked && node.id == pressedNode) {
                             
                             // Creates the element to hold the word inside the node
-                            const wordHolder = document.createElement("a")
+                            const wordHolder = document.createElement("a");
 
                             // Sets the url of the word
-                            wordHolder.href = `${wordURL}?w=${node.word}`
+                            wordHolder.href = `${wordURL}?w=${node.word}`;
 
                             // Sets the opacity to 0 for animation
-                            wordHolder.style.opacity = 0
-                            wordHolder.classList = "nodeWordHolder"
+                            wordHolder.style.opacity = 0;
+                            wordHolder.classList = "nodeWordHolder";
 
                             // Creates element to hold the word
-                            const word = document.createElement("h1")
-                            word.textContent = node.word
+                            const word = document.createElement("h1");
+                            word.textContent = node.word;
 
                             // Adds the word to the word holder
-                            wordHolder.appendChild(word)
+                            wordHolder.appendChild(word);
 
                             // Displays the word to the user
-                            document.body.appendChild(wordHolder)
+                            document.body.appendChild(wordHolder);
 
                             // Sets the position of the word popup
-                            wordHolder.style.left = `${Math.min(Math.max(displayPositionX - wordHolder.offsetWidth/2, nodeBorderWidthPX), window.innerWidth - wordHolder.offsetWidth - nodeBorderWidthPX)}px`
-                            wordHolder.style.top = `${Math.min(Math.max(displayPositionY - wordHolder.offsetHeight/2, nodeBorderWidthPX), window.innerHeight - wordHolder.offsetHeight - nodeBorderWidthPX)}px`
-                            wordHolder.style.opacity = 1
+                            wordHolder.style.left = `${Math.min(Math.max(displayPositionX - wordHolder.offsetWidth/2, nodeBorderWidthPX), window.innerWidth - wordHolder.offsetWidth - nodeBorderWidthPX)}px`;
+                            wordHolder.style.top = `${Math.min(Math.max(displayPositionY - wordHolder.offsetHeight/2, nodeBorderWidthPX), window.innerHeight - wordHolder.offsetHeight - nodeBorderWidthPX)}px`;
+                            wordHolder.style.opacity = 1;
                             
                             // Ensures only one node is clicked
-                            nodeClicked = true
+                            nodeClicked = true;
 
                             // Hides the word with an animation
                             wordHolder.addEventListener("mouseleave", ()=>{
-                                wordHolder.style.opacity = 0
+                                wordHolder.style.opacity = 0;
                                 setTimeout(()=>{
-                                    wordHolder.remove()
-                                }, 100)
-                            })
+                                    wordHolder.remove();
+                                }, 100);
+                            });
                         }
                     }
                 }
@@ -265,7 +265,7 @@ function animateBg() {
         context.fill();
 
         // Sets the node's size to the node's size
-        node.size = currentNodeSize
+        node.size = currentNodeSize;
 
         // Increments the node's animation
         node.animationFrame += node.overallAnimationSpeed;
@@ -273,8 +273,8 @@ function animateBg() {
 
     // Sees if the animaition isn't being pressed to disable dragging
     if (!animationPressed) {
-        pressedNode = -1
-        dragging = false
+        pressedNode = -1;
+        dragging = false;
     }
     
     // Creates lines to each node within eachother's range
@@ -285,85 +285,85 @@ function animateBg() {
             if (node1.id > node2.id && node2.displayX > node1.displayX-distanceNeededToConnectWithNode && node2.displayY < node1.displayY+distanceNeededToConnectWithNode && node2.displayY > node1.displayY-distanceNeededToConnectWithNode && node2.displayY < node1.displayY+distanceNeededToConnectWithNode) {
                 
                 // Gets the distance between each node
-                const distanceBetweenPoints = Math.sqrt(Math.pow(node1.displayX-node2.displayX, 2)+Math.pow(node1.displayY-node2.displayY, 2))
+                const distanceBetweenPoints = Math.sqrt(Math.pow(node1.displayX-node2.displayX, 2)+Math.pow(node1.displayY-node2.displayY, 2));
                 
                 // Sees if the distance is small enough to create a line
                 if (distanceBetweenPoints < distanceNeededToConnectWithNode) {
 
                     // Draws a line between the two nodes
-                    context.beginPath()
-                    context.moveTo(node1.displayX, node1.displayY)
-                    context.lineTo(node2.displayX, node2.displayY)
+                    context.beginPath();
+                    context.moveTo(node1.displayX, node1.displayY);
+                    context.lineTo(node2.displayX, node2.displayY);
 
                     // Sets the colour of the line to the selected colour and the opacity to the persentage of mouse distance to max distance
                     context.strokeStyle = `rgba(${nodeColour.r}, ${nodeColour.g}, ${nodeColour.b}, ${(1-distanceBetweenPoints/distanceNeededToConnectWithNode)*lineStrength})`;
                     
                     // Sets the line width to the selected width
-                    context.lineWidth = lineWidth
+                    context.lineWidth = lineWidth;
 
                     // Strokes the line
-                    context.stroke()
+                    context.stroke();
                 }
             }
         }
     }
 
     // Sets the unpressed to false so its only true for one frame
-    animationUnpressed = false
+    animationUnpressed = false;
 
     // Keeps the animation running
     window.requestAnimationFrame(animateBg);
 }
 
 // Runs the animation
-window.requestAnimationFrame(animateBg)
+window.requestAnimationFrame(animateBg);
 
 // 
 // Word Of The Day
 // ---------
 
 // Gets the element that controls the word of the day
-const wordOfTheDayHolder = document.getElementById("wordOfTheDay")
-const wordOfTheDayTitle = document.getElementById("wordOfTheDayWord")
-const loadingWordOfTheDay = document.getElementById("smallLoading")
+const wordOfTheDayHolder = document.getElementById("wordOfTheDay");
+const wordOfTheDayTitle = document.getElementById("wordOfTheDayWord");
+const loadingWordOfTheDay = document.getElementById("smallLoading");
 
 // Defines how many milliseconds are in a day
-const MSinDaysAmount = 86400000
+const MSinDaysAmount = 86400000;
 
 // Get the day number
-Math.seedrandom(Math.floor(Date.now() / MSinDaysAmount))
+Math.seedrandom(Math.floor(Date.now() / MSinDaysAmount));
 
 // Displays today's word of the day
 function displayWordOfTheDay() {
     
     // Gets the word of the day from the list
-    const wordOfTheDay = words[Math.floor(Math.random() * words.length)]
+    const wordOfTheDay = words[Math.floor(Math.random() * words.length)];
 
     getWordInfo(wordOfTheDay).then((info)=>{
         // Removes loading square
-        loadingWordOfTheDay.remove()
+        loadingWordOfTheDay.remove();
 
         // Sets the word of the day to the word of the day
-        wordOfTheDayTitle.textContent = wordOfTheDay
+        wordOfTheDayTitle.textContent = wordOfTheDay;
 
         // Creates text that displays the type of the word
-        const wordTypeText = document.createElement("p")
-        wordTypeText.textContent = info.type
-        wordOfTheDayHolder.appendChild(wordTypeText)
+        const wordTypeText = document.createElement("p");
+        wordTypeText.textContent = info.type;
+        wordOfTheDayHolder.appendChild(wordTypeText);
 
         // Creates text that displays the definition of the word
-        const definitionText = document.createElement("p")
-        definitionText.textContent = info.definition
-        wordOfTheDayHolder.appendChild(definitionText)
+        const definitionText = document.createElement("p");
+        definitionText.textContent = info.definition;
+        wordOfTheDayHolder.appendChild(definitionText);
 
         // Sets the url of the word of the day
-        const wordOfTheDayURL = `${wordURL}?w=${wordOfTheDay}`
+        const wordOfTheDayURL = `${wordURL}?w=${wordOfTheDay}`;
 
-        const wordOfTheDayLink = document.getElementById("wordOfTheDayLink")
-        wordOfTheDayLink.href = wordOfTheDayURL
+        const wordOfTheDayLink = document.getElementById("wordOfTheDayLink");
+        wordOfTheDayLink.href = wordOfTheDayURL;
 
     })
 }
 
 // Displays the word of the day
-displayWordOfTheDay()
+displayWordOfTheDay();
